@@ -130,6 +130,8 @@ class Inception3(nn.Module):
         # N x 768 x 17 x 17
         if self.training and self.aux_logits:
             aux = self.AuxLogits(x)
+        else:
+            aux = None
         # N x 768 x 17 x 17
         x = self.Mixed_7a(x)
         # N x 1280 x 8 x 8
@@ -146,8 +148,8 @@ class Inception3(nn.Module):
         # N x 2048
         x = self.fc(x)
         # N x 1000 (num_classes)
-        if self.training and self.aux_logits:
-            return _InceptionOutputs(x, aux)
+        # if self.training and self.aux_logits:
+        #     return _InceptionOutputs(x, aux)
         return x
 
 

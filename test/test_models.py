@@ -38,7 +38,7 @@ torchub_models = {
     "shufflenet_v2_x1_0": True,
     "squeezenet1_0": True,
     "vgg11": True,
-    "inception_v3": False,
+    "inception_v3": True,
 }
 
 
@@ -46,12 +46,13 @@ class Tester(unittest.TestCase):
     def check_script(self, model, name):
         if name not in torchub_models:
             return
-        scriptable = True
-        try:
-            torch.jit.script(model)
-        except Exception:
-            scriptable = False
-        self.assertEqual(torchub_models[name], scriptable)
+        # scriptable = True
+        # try:
+        g = torch.jit.script(model)
+        print(g.graph)
+        # except Exception:
+        #     scriptable = False
+        # self.assertEqual(torchub_models[name], scriptable)
 
     def _test_classification_model(self, name, input_shape):
         # passing num_class equal to a number other than 1000 helps in making the test
